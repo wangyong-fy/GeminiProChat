@@ -9,29 +9,29 @@ export const post: APIRoute = async(context) => {
   const body = await context.request.json()
   const { sign, time, messages, pass } = body
 
-  if (!messages || messages.length === 0 || messages[messages.length - 1].role !== 'user') {
-    return new Response(JSON.stringify({
-      error: {
-        message: 'Invalid message history: The last message must be from user role.',
-      },
-    }), { status: 400 })
-  }
+  // if (!messages || messages.length === 0 || messages[messages.length - 1].role !== 'user') {
+  //   return new Response(JSON.stringify({
+  //     error: {
+  //       message: 'Invalid message history: The last message must be from user role.',
+  //     },
+  //   }), { status: 400 })
+  // }
 
-  if (sitePassword && !(sitePassword === pass || passList.includes(pass))) {
-    return new Response(JSON.stringify({
-      error: {
-        message: 'Invalid password.',
-      },
-    }), { status: 401 })
-  }
+  // if (sitePassword && !(sitePassword === pass || passList.includes(pass))) {
+  //   return new Response(JSON.stringify({
+  //     error: {
+  //       message: 'Invalid password.',
+  //     },
+  //   }), { status: 401 })
+  // }
 
-  if (import.meta.env.PROD && !await verifySignature({ t: time, m: messages[messages.length - 1].parts.map(part => part.text).join('') }, sign)) {
-    return new Response(JSON.stringify({
-      error: {
-        message: 'Invalid signature.',
-      },
-    }), { status: 401 })
-  }
+  // if (import.meta.env.PROD && !await verifySignature({ t: time, m: messages[messages.length - 1].parts.map(part => part.text).join('') }, sign)) {
+  //   return new Response(JSON.stringify({
+  //     error: {
+  //       message: 'Invalid signature.',
+  //     },
+  //   }), { status: 401 })
+  // }
 
   try {
     const history = messages.slice(0, -1) // All messages except the last one
